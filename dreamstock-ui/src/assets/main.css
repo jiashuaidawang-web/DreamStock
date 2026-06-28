@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  /* Background colors - Binance-style dark theme */
+  --color-bg-primary: #0b0e11;
+  --color-bg-secondary: #1e2329;
+  --color-bg-tertiary: #2b3139;
+  --color-bg-card: #181a20;
+  --color-bg-hover: #2b3139;
+
+  /* Text colors */
+  --color-text-primary: #eaecef;
+  --color-text-secondary: #848e9c;
+  --color-text-tertiary: #5e6673;
+
+  /* Trading colors: Red Up, Green Down (Chinese convention) */
+  --color-up: #f6465d;
+  --color-up-bg: rgba(246, 70, 93, 0.1);
+  --color-down: #0ecb81;
+  --color-down-bg: rgba(14, 203, 129, 0.1);
+
+  /* Accent colors */
+  --color-accent-yellow: #fcd535;
+  --color-accent-blue: #1890ff;
+  --color-accent-purple: #a855f7;
+  --color-accent-orange: #f97316;
+  --color-accent-cyan: #06b6d4;
+
+  /* Border colors */
+  --color-border-primary: #2b3139;
+  --color-border-secondary: #474d57;
+
+  /* Board tier gradient colors (for leader ladder) */
+  --color-tier-10: #f6465d;
+  --color-tier-9: #f97316;
+  --color-tier-8: #fcd535;
+  --color-tier-7: #fde68a;
+  --color-tier-6: #0ecb81;
+  --color-tier-5: #06b6d4;
+  --color-tier-4: #1890ff;
+  --color-tier-3: #a855f7;
+  --color-tier-2: #848e9c;
+
+  /* Spacing */
+  --spacing-card: 16px;
+
+  /* Font sizes */
+  --text-score: 2.5rem;
+}
+
+/* Global styles */
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei',
+    'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-secondary);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
