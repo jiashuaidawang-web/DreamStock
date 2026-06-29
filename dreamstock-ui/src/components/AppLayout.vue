@@ -2,27 +2,53 @@
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
-  LayoutDashboard,
-  Trophy,
-  NotebookPen,
-  Settings,
-  ChevronLeft,
-  ChevronRight
+  LayoutDashboard, Activity, TrendingUp, BarChart3, Landmark,
+  Newspaper, Grid3x3, ArrowUpDown, Trophy, GitFork, Link2,
+  Flame, Target, ClipboardList, NotebookPen, UserCheck,
+  BookOpen, PlayCircle, Settings, Database, Shield,
+  ChevronLeft, ChevronRight
 } from 'lucide-vue-next'
 
 const route = useRoute()
 const router = useRouter()
 const collapsed = ref(false)
 
-const navItems = [
-  { path: '/dashboard', label: '总览工作台', icon: LayoutDashboard },
-  { path: '/leader-ladder', label: '龙头竞争梯队', icon: Trophy },
-  { path: '/review', label: '复盘日志', icon: NotebookPen },
-  { path: '/rules', label: '规则管理', icon: Settings },
+const navSections = [
+  { title: '市场总览', items: [
+    { path: '/dashboard', label: '总览工作台', icon: LayoutDashboard },
+    { path: '/emotion-score', label: '情绪评分', icon: Activity },
+    { path: '/cycle-trend', label: '周期趋势', icon: TrendingUp },
+    { path: '/market-trend', label: '大盘趋势', icon: BarChart3 },
+    { path: '/capital-flow', label: '资金流向', icon: Landmark },
+    { path: '/policy-event', label: '政策事件', icon: Newspaper },
+  ]},
+  { title: '题材龙头', items: [
+    { path: '/theme-matrix', label: '题材主线', icon: Grid3x3 },
+    { path: '/limit-board', label: '涨停复盘', icon: ArrowUpDown },
+    { path: '/leader-ladder', label: '龙头梯队', icon: Trophy },
+    { path: '/divergence', label: '分歧一致', icon: GitFork },
+    { path: '/stock-correlation', label: '个股关联', icon: Link2 },
+    { path: '/trend-dragon', label: '趋势龙头', icon: Flame },
+  ]},
+  { title: '策略交易', items: [
+    { path: '/cycle-strategy', label: '周期策略', icon: Target },
+    { path: '/trade-plan', label: '交易计划', icon: ClipboardList },
+    { path: '/review', label: '复盘日志', icon: NotebookPen },
+    { path: '/discipline-profile', label: '纪律画像', icon: UserCheck },
+    { path: '/case-library', label: '案例库', icon: BookOpen },
+    { path: '/cycle-replay', label: '周期回放', icon: PlayCircle },
+  ]},
+  { title: '系统管理', items: [
+    { path: '/rules', label: '规则管理', icon: Settings },
+    { path: '/data-quality', label: '数据质量', icon: Database },
+    { path: '/user-permission', label: '用户权限', icon: Shield },
+  ]},
 ]
 
+const allItems = navSections.flatMap(s => s.items)
+
 const currentTitle = computed(() => {
-  const item = navItems.find(n => n.path === route.path)
+  const item = allItems.find(n => n.path === route.path)
   return item?.label || 'DreamStock'
 })
 </script>
@@ -32,7 +58,7 @@ const currentTitle = computed(() => {
     <!-- Sidebar -->
     <aside
       :class="[
-        'flex flex-col bg-bg-secondary border-r border-border-primary transition-all duration-300',
+        'flex flex-col bg-bg-secondary border-r border-border-primary transition-all duration-300 shrink-0',
         collapsed ? 'w-16' : 'w-56'
       ]"
     >
@@ -47,21 +73,28 @@ const currentTitle = computed(() => {
       </div>
 
       <!-- Navigation -->
-      <nav class="flex-1 py-2 space-y-1 px-2">
-        <button
-          v-for="item in navItems"
-          :key="item.path"
-          :class="[
-            'w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors',
-            route.path === item.path
-              ? 'bg-accent-yellow/10 text-accent-yellow'
-              : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary'
-          ]"
-          @click="router.push(item.path)"
-        >
-          <component :is="item.icon" :size="20" />
-          <span v-if="!collapsed">{{ item.label }}</span>
-        </button>
+      <nav class="flex-1 overflow-y-auto py-2 px-2 scrollbar-thin">
+        <div v-for="section in navSections" :key="section.title" class="mb-2">
+          <div v-if="!collapsed" class="px-3 py-1.5 text-[10px] font-semibold text-text-tertiary uppercase tracking-wider">
+            {{ section.title }}
+          </div>
+          <div v-else class="h-px bg-border-primary mx-2 my-1"></div>
+          <button
+            v-for="item in section.items"
+            :key="item.path"
+            :class="[
+              'w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors',
+              route.path === item.path
+                ? 'bg-accent-yellow/10 text-accent-yellow'
+                : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary'
+            ]"
+            @click="router.push(item.path)"
+            :title="collapsed ? item.label : undefined"
+          >
+            <component :is="item.icon" :size="18" class="shrink-0" />
+            <span v-if="!collapsed" class="truncate">{{ item.label }}</span>
+          </button>
+        </div>
       </nav>
 
       <!-- Collapse toggle -->
